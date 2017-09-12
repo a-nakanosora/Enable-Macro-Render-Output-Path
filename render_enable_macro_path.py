@@ -2,7 +2,7 @@ bl_info = {
     'name': 'Enable Macro Render Output Path',
     'description': 'Apply macro syntax to render output filepaths',
     'author': 'A Nakanosora',
-    'version': (1, 1),
+    'version': (1, 2, 1),
     'blender': (2, 78, 0),
     'location': 'Render Settings > Output',
     'warning': '',
@@ -43,9 +43,11 @@ def to_forwardslash(path):
 def apply_path_macro(scene, path):
     ## $file, $scene, $camera
     filename = get_current_filename() or '_unsaved'+get_date_str()
+    timestamp = '{:0.6f}'.format(dt.now().timestamp())
     path_next = path.replace('$file', filename)             \
                     .replace('$scene', scene.name)          \
-                    .replace('$camera', scene.camera.name)
+                    .replace('$camera', scene.camera.name)  \
+                    .replace('$timestamp', timestamp)
 
     ## $(<var-name>)
     for n,v in get_defined_variables(scene):
